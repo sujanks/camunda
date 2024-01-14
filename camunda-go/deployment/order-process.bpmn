@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1grh8px" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.18.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.3.0">
+  <bpmn:process id="order-process" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" name="Order Placed">
+      <bpmn:outgoing>Flow_12oekfv</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="Event_1bajvco" name="Order Delivered">
+      <bpmn:incoming>Flow_0cshgcb</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_12oekfv" sourceRef="StartEvent_1" targetRef="Activity_0ynvuar" />
+    <bpmn:serviceTask id="Activity_0ynvuar" name="Collect Money">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="payment-service" />
+        <zeebe:taskHeaders>
+          <zeebe:header key="method" value="VISA" />
+        </zeebe:taskHeaders>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_12oekfv</bpmn:incoming>
+      <bpmn:outgoing>Flow_0jd3kg3</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0jd3kg3" sourceRef="Activity_0ynvuar" targetRef="Activity_1cjf8ce" />
+    <bpmn:serviceTask id="Activity_1cjf8ce" name="Fetch Items">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="fetcher-service" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0jd3kg3</bpmn:incoming>
+      <bpmn:outgoing>Flow_12tqsvu</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_12tqsvu" sourceRef="Activity_1cjf8ce" targetRef="Activity_159p638" />
+    <bpmn:serviceTask id="Activity_159p638" name="Ship Parcel">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="shipping-service" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_12tqsvu</bpmn:incoming>
+      <bpmn:outgoing>Flow_0cshgcb</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0cshgcb" sourceRef="Activity_159p638" targetRef="Event_1bajvco" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="order-process">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="79" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="165" y="122" width="65" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1bajvco_di" bpmnElement="Event_1bajvco">
+        <dc:Bounds x="772" y="79" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="751" y="122" width="78" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ynvuar_di" bpmnElement="Activity_0ynvuar">
+        <dc:Bounds x="250" y="57" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1cjf8ce_di" bpmnElement="Activity_1cjf8ce">
+        <dc:Bounds x="400" y="57" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_159p638_di" bpmnElement="Activity_159p638">
+        <dc:Bounds x="570" y="57" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_12oekfv_di" bpmnElement="Flow_12oekfv">
+        <di:waypoint x="215" y="97" />
+        <di:waypoint x="250" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0jd3kg3_di" bpmnElement="Flow_0jd3kg3">
+        <di:waypoint x="350" y="97" />
+        <di:waypoint x="400" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_12tqsvu_di" bpmnElement="Flow_12tqsvu">
+        <di:waypoint x="500" y="97" />
+        <di:waypoint x="570" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0cshgcb_di" bpmnElement="Flow_0cshgcb">
+        <di:waypoint x="670" y="97" />
+        <di:waypoint x="772" y="97" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
