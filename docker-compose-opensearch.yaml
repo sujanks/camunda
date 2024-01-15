@@ -79,7 +79,7 @@ services:
       - operate
 
   opensearch: # This is also the hostname of the container within the Docker network (i.e. https://opensearch-node1/)
-    image: opensearchproject/opensearch:2.7.0 # Specifying the latest available image - modify if you want a specific version
+    image: opensearchproject/opensearch:2.11.0 # Specifying the latest available image - modify if you want a specific version
     container_name: opensearch
     environment:
       - cluster.name=opensearch-cluster # Name the cluster
@@ -105,7 +105,7 @@ services:
       - camunda-platform # All of the containers will join the same Docker bridge network
 
   opensearch-dashboards:
-    image: opensearchproject/opensearch-dashboards:2.7.0 # Make sure the version of opensearch-dashboards matches the version of opensearch installed on other nodes
+    image: opensearchproject/opensearch-dashboards:2.11.0 # Make sure the version of opensearch-dashboards matches the version of opensearch installed on other nodes
     container_name: opensearch-dashboards
     ports:
       - 5601:5601 # Map host port 5601 to container port 5601
